@@ -14,9 +14,13 @@ pipeline {
             echo 'PULL SUCCESS'
            }
         }
-        stage ('BUILD STAGE') {
-        steps {
-            echo 'BUILD SUCCESS'
+        stage('BUILD STAGE') {
+            steps {
+                dir('backend') {
+                    sh 'java -version'
+                    sh 'mvn clean package -DskipTests'
+                }
+                echo "BUILD SUCCESS"
             }
         }
         stage ('TEST STAGE') {
