@@ -7,34 +7,39 @@ pipeline {
     }
 
     stages {
+
         stage('PULL STAGE') {
             steps {
                 git 'https://github.com/chetanraval07/batch2728-project.git'
                 echo 'PULL SUCCESS'
             }
         }
+
         stage('BUILD STAGE') {
             steps {
                 dir('backend') {
                     sh 'java -version'
                     sh 'mvn clean package -DskipTests'
                 }
-                echo "BUILD SUCCESS"
+                echo 'BUILD SUCCESS'
             }
         }
+
         stage('TEST STAGE') {
             steps {
-	      withSonarQubeEnv(credentialsId: 'sonar-cred') {
-                dir('backend') {
-                    sh '''mvn sonar:sonar \
-                      -Dsonar.projectKey=my-appB2728 \
-                      -Dsonar.projectName='my-appB2728' \
-                      '''
+                withSonarQubeEnv('SonarQube') {
+                    dir('backend') {
+                        sh '''
+                            mvn sonar:sonar \
+                            -Dsonar.projectKey=my-appB2728 \
+                            -Dsonar.projectName=my-appB2728
+                        '''
+                    }
                 }
                 echo 'TEST SUCCESS'
-	      }	
             }
         }
+
         stage('DEPLOY STAGE') {
             steps {
                 echo 'DEPLOY SUCCESS'
