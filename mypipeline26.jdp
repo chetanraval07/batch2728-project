@@ -24,14 +24,15 @@ pipeline {
         }
         stage('TEST STAGE') {
             steps {
+	      withSonarQubeEnv(credentialsId: 'sonar-cred') {
                 dir('backend') {
                     sh '''mvn sonar:sonar \
                       -Dsonar.projectKey=my-appB2728 \
                       -Dsonar.projectName='my-appB2728' \
-                      -Dsonar.host.url=http://52.58.177.86:9000 \
-                      -Dsonar.token=sqp_040ae1dd85d224fb230ca50d2dfea3623f787548'''
+                      '''
                 }
                 echo 'TEST SUCCESS'
+	      }	
             }
         }
         stage('DEPLOY STAGE') {
