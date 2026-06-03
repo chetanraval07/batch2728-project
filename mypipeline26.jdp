@@ -1,18 +1,17 @@
 pipeline {
     agent any
-    
+
     environment {
         JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
         PATH = "${JAVA_HOME}/bin:${env.PATH}"
     }
 
-    
-    stages { 
-        stage ('PULL STAGE') {
-        steps {
-            git 'https://github.com/chetanraval07/batch2728-project.git'
-            echo 'PULL SUCCESS'
-           }
+    stages {
+        stage('PULL STAGE') {
+            steps {
+                git 'https://github.com/chetanraval07/batch2728-project.git'
+                echo 'PULL SUCCESS'
+            }
         }
         stage('BUILD STAGE') {
             steps {
@@ -23,15 +22,22 @@ pipeline {
                 echo "BUILD SUCCESS"
             }
         }
-        stage ('TEST STAGE') {
-        steps {
-            echo 'TEST SUCCESS'
+        stage('TEST STAGE') {
+            steps {
+                dir('backend') {
+                    sh '''mvn sonar:sonar \
+                      -Dsonar.projectKey=my-appB2728 \
+                      -Dsonar.projectName='my-appB2728' \
+                      -Dsonar.host.url=http://52.58.177.86:9000 \
+                      -Dsonar.token=sqp_040ae1dd85d224fb230ca50d2dfea3623f787548'''
+                }
+                echo 'TEST SUCCESS'
             }
         }
-        stage ('DEPLOY STAGE') {
-        steps {
-            echo 'DEPLOY SUCCESS'
+        stage('DEPLOY STAGE') {
+            steps {
+                echo 'DEPLOY SUCCESS'
             }
         }
     }
-}    
+}
