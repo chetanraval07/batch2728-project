@@ -36,7 +36,16 @@ pipeline {
                         '''
                     }
                 }
-                echo 'TEST SUCCESS Sonar'
+                echo 'TEST SUCCESS'
+            }
+        }
+
+
+        stage('QUALITY-GATE') {
+            steps {
+	        timeout(time: 5, unit: 'MINUTES') {
+		waitForQualityGate abortPipeline: false, credentialsId: 'sonar-cred'
+                echo 'DEPLOY SUCCESS'
             }
         }
 
