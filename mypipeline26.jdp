@@ -44,8 +44,8 @@ pipeline {
         stage('QUALITY-GATE') {
             steps {
 	        timeout(time: 5, unit: 'MINUTES') {
-		waitForQualityGate abortPipeline: false, credentialsId: 'sonar-cred'
-                echo 'DEPLOY SUCCESS'
+		waitForQualityGate abortPipeline: true, credentialsId: 'sonar-cred'
+                echo 'QUALITY-PASSED'
                 }
 	    }
         }
