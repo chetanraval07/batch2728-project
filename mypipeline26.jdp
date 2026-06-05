@@ -50,10 +50,16 @@ pipeline {
 	    }
         }
 
-        stage('DEPLOY STAGE') {
+        stage('CONTINUOUS DELIEVERY') {
+            steps {
+                sh 'aws s3 cp /backend/target/student-registration-backend-0.0.1-SNAPSHOT.jar s3://for-jenkins-project-backup-buxx/student-app-B2827'
+            }
+        }
+
+         stage('DEPLOY STAGE') {
             steps {
                 echo 'DEPLOY SUCCESS'
             }
         }
     }
-}
+ }
