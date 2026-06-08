@@ -1,9 +1,9 @@
 pipeline { 
    agent any 
    stages { 
-       stage (PULL STAGE) {
+       stage ('PULL STAGE') {
 	   steps { 
-	   git "https://github.com/chetanraval07/batch2728-project.git"
+	   git 'https://github.com/chetanraval07/batch2728-project.git'
            }
        } 
        
